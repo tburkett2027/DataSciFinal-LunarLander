@@ -6,4 +6,5 @@ class Rocket:
         self.angle: float
 
     def getVertices(self) -> tuple[tuple[float, float]]:
+        # some math to calculate where the vertices are
         pass
