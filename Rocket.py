@@ -1,10 +1,12 @@
 class Rocket:
     def __init__(self):
-        self.position: tuple[float, float]
-        self.velocity: tuple[float, float]
+        self.position: list[float]
+        self.velocity: list[float]
         self.angular_velocity: float
         self.angle: float
+        self.vertices: list[tuple(float, float)]
 
-    def getVertices(self) -> tuple[tuple[float, float]]:
+    def getVertices(self) -> list[tuple[float, float]]:
         # some math to calculate where the vertices are
-        pass
+        # default vertices for debug purposes
+        return []
