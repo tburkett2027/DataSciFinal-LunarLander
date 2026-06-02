@@ -28,6 +28,7 @@ while True:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            gamePrint("<!> Quitting! <!>")
             pygame.quit()
             raise SystemExit
 
@@ -40,12 +41,18 @@ while True:
         gamePrint("<!> Quitting! <!>")
         pygame.quit()
         raise SystemExit
-        
-
-    if key[pygame.K_w]: gamePrint("we're going up up up")
-    if key[pygame.K_a]: gamePrint("to the left to the left to the left to the left")
-    if key[pygame.K_s]: gamePrint("watchu know about rolling down in the deep")
-    if key[pygame.K_d]: gamePrint("to the right to the right to the right to the right")
+    
+    if key[pygame.K_a]:
+        RocketGameObj.tilt(-1, dt)
+    if key[pygame.K_d]:
+        RocketGameObj.tilt(1, dt)
+    if key[pygame.K_w]:
+        RocketGameObj.thrust(dt)    
+    
+    # if key[pygame.K_w]: gamePrint("we're going up up up")
+    # if key[pygame.K_a]: gamePrint("to the left to the left to the left to the left")
+    # if key[pygame.K_s]: gamePrint("watchu know about rolling down in the deep")
+    # if key[pygame.K_d]: gamePrint("to the right to the right to the right to the right")
 
 
     # ===== LOGIC GOES HERE =====
