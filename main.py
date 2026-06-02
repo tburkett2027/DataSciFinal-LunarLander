@@ -1,5 +1,6 @@
 import pygame
 import time
+from Rocket import Rocket
 
 pygame.init()
 
@@ -9,15 +10,19 @@ screen = pygame.display.set_mode((960,540))
 clock = pygame.time.Clock()
 
 
+# Literally just a print function but shows how long into execution it ran
 start_time: float = time.perf_counter()
 def gamePrint(inp: str) -> float:
     print(f"<{round(time.perf_counter() - start_time, 4)}s>\t{inp}")
 
 gamePrint("Starting game")
 
-deltaTime: float = 0.0 # fix later
+RocketGameObj: Rocket = Rocket()
 
 while True:
+    # get delta time in seconds
+    # this is the amount of time since the last frame was rendered
+    dt = clock.tick(60) / 1000.0
 
     # ===== INPUT CONTROL GOES HERE =====
 
@@ -44,9 +49,14 @@ while True:
 
 
     # ===== LOGIC GOES HERE =====
-
+    RocketGameObj.update(dt)
 
     # ===== RENDERING GOES HERE =====
+    # fills buffer frame with black
+    screen.fill("black")
+
+    color1 = (255, 255, 255)
+    pygame.draw.polygon(screen, color1, RocketGameObj.getVertices())
     # yo rocket
     # give me your vertices so i can draw them
     # *draws vertices*
@@ -55,10 +65,10 @@ while True:
     # give me your vertices so i can draw them
     # *draws vertices*
 
-    screen.fill("black")
-    # this prevents old stuff from still being on screen
-
-
-    # End
+    # swaps the screen frame with the buffer frame, reversing their roles.
+    # basically the buffer frame is what we're changing while the screen frame
+    # puts on a show. then the buffer frame goes on stage and the screen frame becomes
+    # the buffer frame to edit once again.
     pygame.display.flip()
-    clock.tick(60)
+
+pygame.quit()
