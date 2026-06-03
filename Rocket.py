@@ -4,10 +4,11 @@ import Constants
 
 class Rocket:
     def __init__(self):
-        self.position: np.ndarray = np.array([100.0, 100.0]) ## DEBUG VALUE, CHANGE LATER
-        self.velocity: np.ndarray = np.array([000.0, 0.0]) ## DEBUG VALUE, CHANGE LATER
-        self.angular_velocity: float = 0.0 ## DEBUG VALUE, CHANGE LATER
+        self.position: np.ndarray = np.array([100.0, 100.0]) ## Default position
+        self.velocity: np.ndarray = np.array([000.0, 0.0])
+        self.angular_velocity: float = 0.0
         self.angle: float = 0.0
+        self.color: tuple[int, int, int] = (255, 255, 255)
         self.vertices: list[tuple[float, float]] = [
             (0, -110), # tip
             (50, -35), # topleft
@@ -15,6 +16,7 @@ class Rocket:
             (-50, 90), # bottomright
             (-50, -35) # topright
         ]
+
 
     # rotate, accelerate due to gravity, move
     def update(self, delta: float) -> None:
@@ -26,7 +28,7 @@ class Rocket:
 
     ## If tilting left, direction should be -1, else 1
     def tilt(self, direction: int, delta: float) -> None:
-        self.angular_velocity += delta * direction * Constants.ROTATION_ACCEL
+        self.angular_velocity += direction * Constants.ROTATION_ACCEL
     
 
     def thrust(self, delta: float) -> None:

@@ -2,6 +2,7 @@ import pygame
 import time
 import Constants
 from Rocket import Rocket
+from Ground import Ground
 
 pygame.init()
 
@@ -18,6 +19,7 @@ def gamePrint(inp: str) -> float:
 gamePrint("Starting game")
 
 RocketGameObj: Rocket = Rocket()
+GroundGameObj: Ground = Ground()
 
 while True:
     # get delta time in seconds
@@ -61,8 +63,8 @@ while True:
     # fills buffer frame with black
     screen.fill("black")
 
-    color1 = (255, 255, 255)
-    rocketrect = pygame.draw.polygon(screen, color1, RocketGameObj.getVertices())
+    rocketrect = pygame.draw.polygon(screen, RocketGameObj.color, RocketGameObj.getVertices())
+    groundrect = pygame.draw.polygon(screen, GroundGameObj.color, GroundGameObj.getVertices())
     # Horizontal wrapping (Left <-> Right)
     if RocketGameObj.position[0] > 960:
         RocketGameObj.position[0] = 0  # Reappear on the left side

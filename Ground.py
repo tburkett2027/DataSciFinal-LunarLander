@@ -5,16 +5,47 @@ import Constants
 
 class Ground:
     def __init__(self):
-        self.regions: list[tuple[int, int]] = [
-            # add later
-        ]
+        self.color = (105, 105, 105)
+        self.numRegions = Constants.GROUND_POINTS
         self.vertices: list[tuple[int, int]] = [
-            (Constants.SCREEN_SIZE[0]/Constants.GROUND_POINTS*x, Constants.GROUND_HEIGHT + randint(-10, 10))
-            for x in range(GROUND_POINTS)
+            (
+                x * Constants.SCREEN_SIZE[0]/self.numRegions,
+                Constants.GROUND_HEIGHT + randint(-15, 15)
+            )
+            for x in range(self.numRegions+1)
         ]
+        self.regions: list[int] = [v[0] for v in self.vertices]
+
+        # these last two vertices are just so that it goes to the
+        # bottom of the screen
+        self.vertices.append(Constants.SCREEN_SIZE)
+        self.vertices.append((0, Constants.SCREEN_SIZE[1]))
     
+
     def getVertices(self) -> list[tuple[int, int]]:
         return self.vertices
     
+
     def isPointIn(self, point: tuple[int, int]) -> bool:
-        pass
+        r = 0
+        for i in range(len(self.regions)):
+            if point[0] <= self.regions[i]:
+                r = i-1
+                break
+        
+        # some line math to find if point is under the line
+
+        return False
+
+
+# for drawing stars later
+class Space:
+    def __init__(self):
+        self.numStars: int = 30
+        self.dims: tuple[int, int] = Constants.SCREEN_SIZE
+        self.vertices: list[tuple[int, int]] = [
+            (randint(0,self.dims[0]), randint(0,self.dims[1]))
+        ]
+    
+    def getVertices() -> list[tuple[int, int]]:
+        return self.vertices
