@@ -9,7 +9,6 @@ screen = pygame.display.set_mode((960,540))
 
 clock = pygame.time.Clock()
 
-
 # Literally just a print function but shows how long into execution it ran
 start_time: float = time.perf_counter()
 def gamePrint(inp: str) -> float:
@@ -57,13 +56,18 @@ while True:
 
     # ===== LOGIC GOES HERE =====
     RocketGameObj.update(dt)
-
     # ===== RENDERING GOES HERE =====
     # fills buffer frame with black
     screen.fill("black")
 
     color1 = (255, 255, 255)
-    pygame.draw.polygon(screen, color1, RocketGameObj.getVertices())
+    rocketrect = pygame.draw.polygon(screen, color1, RocketGameObj.getVertices())
+    # Horizontal wrapping (Left <-> Right)
+    if RocketGameObj.position[0] > 960:
+        RocketGameObj.position[0] = 0  # Reappear on the left side
+    elif RocketGameObj.position[0] < 0:
+        RocketGameObj.position[0] = 960  # Reappear   on the right side
+
     # yo rocket
     # give me your vertices so i can draw them
     # *draws vertices*
