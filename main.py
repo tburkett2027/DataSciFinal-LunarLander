@@ -1,11 +1,12 @@
 import pygame
 import time
+import Constants
 from Rocket import Rocket
 
 pygame.init()
 
 # Window size
-screen = pygame.display.set_mode((960,540))
+screen = pygame.display.set_mode(Constants.SCREEN_SIZE)
 
 clock = pygame.time.Clock()
 
