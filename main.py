@@ -63,7 +63,8 @@ while True:
     # fills buffer frame with black
     screen.fill("black")
 
-    rocketrect = pygame.draw.polygon(screen, RocketGameObj.color, RocketGameObj.getVertices())
+    rocketVerts = RocketGameObj.getVertices()
+    rocketrect = pygame.draw.polygon(screen, RocketGameObj.color, rocketVerts)
     groundrect = pygame.draw.polygon(screen, GroundGameObj.color, GroundGameObj.getVertices())
     # Horizontal wrapping (Left <-> Right)
     if RocketGameObj.position[0] > 960:
@@ -71,6 +72,10 @@ while True:
     elif RocketGameObj.position[0] < 0:
         RocketGameObj.position[0] = 960  # Reappear   on the right side
 
+    for vert in rocketVerts:
+        if GroundGameObj.isPointIn(vert):
+            gamePrint(f"Rocket vert {vert} is colliding")
+            # pass
     # yo rocket
     # give me your vertices so i can draw them
     # *draws vertices*
