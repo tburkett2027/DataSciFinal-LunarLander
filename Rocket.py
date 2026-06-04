@@ -8,13 +8,13 @@ class Rocket:
         self.velocity: np.ndarray = np.array([000.0, 0.0])
         self.angular_velocity: float = 0.0
         self.angle: float = 0.0
-        self.color: tuple[int, int, int] = (255, 255, 255)
+        self.color: tuple[int, int, int] = (218, 73, 51)
         self.vertices: list[tuple[float, float]] = [
-            (0, -110), # tip
-            (50, -35), # topleft
-            (50, 90),  # bottomleft
-            (-50, 90), # bottomright
-            (-50, -35) # topright
+            (0, -120), # tip
+            (40, -40), # topleft
+            (40, 120),  # bottomleft
+            (-40, 120), # bottomright
+            (-40, -40) # topright
         ]
 
 
