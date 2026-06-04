@@ -65,11 +65,11 @@ while True:
 
     rocketrect = pygame.draw.polygon(screen, RocketGameObj.color, RocketGameObj.getVertices())
     groundrect = pygame.draw.polygon(screen, GroundGameObj.color, GroundGameObj.getVertices())
-    # Horizontal wrapping (Left <-> Right)
+    # Horizontal wrapping (Left Right)
     if RocketGameObj.position[0] > 960:
         RocketGameObj.position[0] = 0  # Reappear on the left side
     elif RocketGameObj.position[0] < 0:
-        RocketGameObj.position[0] = 960  # Reappear   on the right side
+        RocketGameObj.position[0] = 960  # Reappear on the right side
 
     # yo rocket
     # give me your vertices so i can draw them
@@ -83,6 +83,20 @@ while True:
     # basically the buffer frame is what we're changing while the screen frame
     # puts on a show. then the buffer frame goes on stage and the screen frame becomes
     # the buffer frame to edit once again.
+
+    # Scoring 5 points come from angle, the other 5 come from time, adding up to 10
+
+    #if rocket angle is greater than 10 -10 Explode
+        #between 2 -2 is a 5
+        # 5 -5 is a 4
+        # 7 -7 is a 3
+        # 8 -8 is a 2
+        # 10 -10 is a 1
+    #if time is greater then 45 secconds 1 point
+    #45 30 2pts
+    #30 22 3pts
+    #22 13 4 pts
+    #less then 13 5 pts
     pygame.display.flip()
 
 pygame.quit()
