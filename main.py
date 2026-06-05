@@ -11,6 +11,7 @@ screen = pygame.display.set_mode(Constants.SCREEN_SIZE)
 
 clock = pygame.time.Clock()
 
+
 # Literally just a print function but shows how long into execution it ran
 start_time: float = time.perf_counter()
 def gamePrint(inp: str) -> float:
@@ -45,29 +46,17 @@ while True:
         raise SystemExit
     
     if key[pygame.K_a]:
-        RocketGameObj.tilt(-1, dt)
+        RocketGameObj.tilt(-1)
     if key[pygame.K_d]:
-        RocketGameObj.tilt(1, dt)
+        RocketGameObj.tilt(1)
     if key[pygame.K_w]:
-        RocketGameObj.thrust(dt)    
-    
-    # if key[pygame.K_w]: gamePrint("we're going up up up")
-    # if key[pygame.K_a]: gamePrint("to the left to the left to the left to the left")
-    # if key[pygame.K_s]: gamePrint("watchu know about rolling down in the deep")
-    # if key[pygame.K_d]: gamePrint("to the right to the right to the right to the right")
+        RocketGameObj.thrust()
+
 
 
     # ===== LOGIC GOES HERE =====
     RocketGameObj.update(dt)
-    # ===== RENDERING GOES HERE =====
-    # fills buffer frame with black
-    screen.fill("black")
 
-    rocketVerts = RocketGameObj.getVertices()
-    rocketrect = pygame.draw.polygon(screen, RocketGameObj.color, rocketVerts)
-    groundrect = pygame.draw.polygon(screen, GroundGameObj.color, GroundGameObj.getVertices())
-
-    landingZone = pygame.draw.line(screen, (255, 238, 0), GroundGameObj.landingZone[0], GroundGameObj.landingZone[1])
     # Horizontal wrapping (Left Right)
     if RocketGameObj.position[0] > 960:
         RocketGameObj.position[0] = 0  # Reappear on the left side
@@ -77,12 +66,8 @@ while True:
     for vert in rocketVerts:
         if GroundGameObj.isPointIn(vert):
             gamePrint(f"Rocket vert {vert} is colliding")
-
-    # swaps the screen frame with the buffer frame, reversing their roles.
-    # basically the buffer frame is what we're changing while the screen frame
-    # puts on a show. then the buffer frame goes on stage and the screen frame becomes
-    # the buffer frame to edit once again.
-
+    
+    
     # Scoring 5 points come from angle, the other 5 come from time, adding up to 10
 
     #if rocket angle is greater than 10 -10 Explode
@@ -96,6 +81,22 @@ while True:
     #30 22 3pts
     #22 13 4 pts
     #less then 13 5 pts
+    
+
+    # ===== RENDERING GOES HERE =====
+    # fills buffer frame with black
+    screen.fill("black")
+
+    rocketVerts = RocketGameObj.getVertices()
+    rocketrect = pygame.draw.polygon(screen, RocketGameObj.color, rocketVerts)
+    groundrect = pygame.draw.polygon(screen, GroundGameObj.color, GroundGameObj.getVertices())
+
+    landingZone = pygame.draw.line(screen, (255, 238, 0), GroundGameObj.landingZone[0], GroundGameObj.landingZone[1])
+
+    # swaps the screen frame with the buffer frame, reversing their roles.
+    # basically the buffer frame is what we're changing while the screen frame
+    # puts on a show. then the buffer frame goes on stage and the screen frame becomes
+    # the buffer frame to edit once again.
     pygame.display.flip()
 
 pygame.quit()

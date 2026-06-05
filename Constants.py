@@ -9,4 +9,4 @@ GROUND_POINTS: int = 12
 # INPUTS
 GRAVITY: float = 1.0
 ROTATION_ACCEL: float = 2.5 # degrees
-THRUST_FORCE: float = 2.5
+THRUST_FORCE: float = 3

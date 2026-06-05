@@ -25,22 +25,25 @@ class Ground:
         self.vertices.append((0, Constants.SCREEN_SIZE[1]))
 
 
+    ## Generates 
     def genLandingZone(self) -> tuple[tuple[int, int], tuple[int, int]]:
         i: int = randint(0, self.numRegions-1)
         self.vertices[i+1] = (self.regions[i+1], self.vertices[i][1])
         return (self.vertices[i], self.vertices[i+1])
 
 
+    ## Ehh kinda useless but safer than GroundGameObj.vertices
     def getVertices(self) -> list[tuple[int, int]]:
         return self.vertices
 
 
+    ## Gets ground region at a point
     def getRegion(self, point: tuple[int, int]) -> int:
         return min(self.numRegions-1,int(point[0]*(self.numRegions)/Constants.SCREEN_SIZE[0]))
 
 
+    ## Checks what region a point is in
     def isPointIn(self, point: tuple[int, int]) -> bool:
-        # region = min(self.numRegions-1,int(point[0]*(self.numRegions)/Constants.SCREEN_SIZE[0]))
         region = self.getRegion(point)
 
         zone: tuple[tuple[int,int],tuple[int,int]] = (

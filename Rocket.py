@@ -27,11 +27,11 @@ class Rocket:
 
 
     ## If tilting left, direction should be -1, else 1
-    def tilt(self, direction: int, delta: float) -> None:
+    def tilt(self, direction: int) -> None:
         self.angular_velocity += direction * Constants.ROTATION_ACCEL
     
 
-    def thrust(self, delta: float) -> None:
+    def thrust(self) -> None:
         # self.velocity += np.array()
         angle = np.radians(self.angle-90)
         x_comp = cos(angle)
