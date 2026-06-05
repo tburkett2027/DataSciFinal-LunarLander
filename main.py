@@ -66,6 +66,8 @@ while True:
     rocketVerts = RocketGameObj.getVertices()
     rocketrect = pygame.draw.polygon(screen, RocketGameObj.color, rocketVerts)
     groundrect = pygame.draw.polygon(screen, GroundGameObj.color, GroundGameObj.getVertices())
+
+    landingZone = pygame.draw.line(screen, (255, 238, 0), GroundGameObj.landingZone[0], GroundGameObj.landingZone[1])
     # Horizontal wrapping (Left Right)
     if RocketGameObj.position[0] > 960:
         RocketGameObj.position[0] = 0  # Reappear on the left side
@@ -75,14 +77,6 @@ while True:
     for vert in rocketVerts:
         if GroundGameObj.isPointIn(vert):
             gamePrint(f"Rocket vert {vert} is colliding")
-            # pass
-    # yo rocket
-    # give me your vertices so i can draw them
-    # *draws vertices*
-
-    # yo ground
-    # give me your vertices so i can draw them
-    # *draws vertices*
 
     # swaps the screen frame with the buffer frame, reversing their roles.
     # basically the buffer frame is what we're changing while the screen frame

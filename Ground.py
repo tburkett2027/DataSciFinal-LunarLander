@@ -12,7 +12,7 @@ class Ground:
         self.vertices: list[tuple[int, int]] = [
             (
                 x * Constants.SCREEN_SIZE[0]/self.numRegions,
-                Constants.GROUND_HEIGHT + randint(-15, 15)
+                Constants.GROUND_HEIGHT + randint(-Constants.GROUND_VARIANCE+5,Constants.GROUND_VARIANCE+5)
             )
             for x in range(self.numRegions+1)
         ]
@@ -23,8 +23,7 @@ class Ground:
         # bottom of the screen
         self.vertices.append(Constants.SCREEN_SIZE)
         self.vertices.append((0, Constants.SCREEN_SIZE[1]))
-        # print(np.polyfit(self.vertices[0], self.vertices[1], 1))
-    
+
 
     def genLandingZone(self) -> tuple[tuple[int, int], tuple[int, int]]:
         i: int = randint(0, self.numRegions-1)
@@ -34,26 +33,28 @@ class Ground:
 
     def getVertices(self) -> list[tuple[int, int]]:
         return self.vertices
-    
+
+
+    def getRegion(self, point: tuple[int, int]) -> int:
+        return min(self.numRegions-1,int(point[0]*(self.numRegions)/Constants.SCREEN_SIZE[0]))
+
 
     def isPointIn(self, point: tuple[int, int]) -> bool:
-        region = 0
-        for i in range(self.numRegions-1):
-            if self.regions[i] <= point[0] and point[0] <= self.regions[i+1]:
-                region = i-1
-                
+        # region = min(self.numRegions-1,int(point[0]*(self.numRegions)/Constants.SCREEN_SIZE[0]))
+        region = self.getRegion(point)
+
         zone: tuple[tuple[int,int],tuple[int,int]] = (
             self.vertices[region], self.vertices[region+1]
         )
-        m, b = np.polyfit(zone[0], zone[1], 1)
-        print(f"m: {m}\tb: {b}")
-        # y = lambda x: (
-        #     (zone[1][1]-zone[0][1]) /
-        #     (zone[1][0]-zone[0][0]) *
-        #     (x - zone[0][0]) + zone[0][1]
-        # )
-        
-        return point[1] >= m*point[0]+b
+
+        # print(f"zone: {zone}, slope: {-(zone[1][1]-zone[0][1]) / (zone[1][0]-zone[0][0])}")
+        y = lambda x: (
+            -(zone[1][1]-zone[0][1]) /
+            (zone[1][0]-zone[0][0]) *
+            (x - zone[0][0]) + zone[0][1]
+        )
+
+        return point[1] >= y(point[0])
 
 
 # for drawing stars later
