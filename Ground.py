@@ -52,7 +52,7 @@ class Ground:
 
         # print(f"zone: {zone}, slope: {-(zone[1][1]-zone[0][1]) / (zone[1][0]-zone[0][0])}")
         y = lambda x: (
-            -(zone[1][1]-zone[0][1]) /
+            (zone[1][1]-zone[0][1]) /
             (zone[1][0]-zone[0][0]) *
             (x - zone[0][0]) + zone[0][1]
         )

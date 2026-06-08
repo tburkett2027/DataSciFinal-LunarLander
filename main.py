@@ -1,6 +1,7 @@
 import pygame
 import time
 import Constants
+
 from Rocket import Rocket
 from Ground import Ground
 
@@ -17,10 +18,13 @@ start_time: float = time.perf_counter()
 def gamePrint(inp: str) -> float:
     print(f"<{round(time.perf_counter() - start_time, 4)}s>\t{inp}")
 
-gamePrint("Starting game")
+gamePrint("<!> Starting game <!>")
 
 RocketGameObj: Rocket = Rocket()
 GroundGameObj: Ground = Ground()
+
+gameActive: bool = True
+gameScore: float = 0.0 # THIS IS UPDATED AT THE VERY END
 
 while True:
     # get delta time in seconds
@@ -55,32 +59,44 @@ while True:
 
 
     # ===== LOGIC GOES HERE =====
-    RocketGameObj.update(dt)
+    rocketVerts = RocketGameObj.getVertices()
+    groundVerts = GroundGameObj.getVertices()
 
-    # Horizontal wrapping (Left Right)
-    if RocketGameObj.position[0] > 960:
-        RocketGameObj.position[0] = 0  # Reappear on the left side
-    elif RocketGameObj.position[0] < 0:
-        RocketGameObj.position[0] = 960  # Reappear on the right side
+    if gameActive:
+        RocketGameObj.update(dt)
 
-    for vert in rocketVerts:
-        if GroundGameObj.isPointIn(vert):
-            gamePrint(f"Rocket vert {vert} is colliding")
-    
-    
-    # Scoring 5 points come from angle, the other 5 come from time, adding up to 10
+        # Horizontal wrapping (Left Right)
+        if RocketGameObj.position[0] > Constants.SCREEN_SIZE[0]:
+            RocketGameObj.position[0] = 0  # Reappear on the left side
+        elif RocketGameObj.position[0] < 0:
+            RocketGameObj.position[0] = Constants.SCREEN_SIZE[0]  # Reappear on the right side
 
-    #if rocket angle is greater than 10 -10 Explode
-        #between 2 -2 is a 5
-        # 5 -5 is a 4
-        # 7 -7 is a 3
-        # 8 -8 is a 2
-        # 10 -10 is a 1
-    #if time is greater then 45 secconds 1 point
-    #45 30 2pts
-    #30 22 3pts
-    #22 13 4 pts
-    #less then 13 5 pts
+        collided: bool = False
+        for vert in rocketVerts:
+            if GroundGameObj.isPointIn(vert):
+                gamePrint(f"Collision found at Rocket vert {vert}")
+                collided = True
+                gameActive = False
+                break
+        
+
+        # Scoring 5 points come from angle, the other 5 come from time, adding up to 10
+
+        #if rocket angle is greater than 10 -10 Explode
+            #between 2 -2 is a 5
+            # 5 -5 is a 4
+            # 7 -7 is a 3
+            # 8 -8 is a 2
+            # 10 -10 is a 1
+        #if time is greater then 45 secconds 1 point
+        #45 30 2pts
+        #30 22 3pts
+        #22 13 4 pts
+        #less then 13 5 pts
+
+        if collided:
+            RocketGameObj.scoreSelf(time.perf_counter()-start_time)
+            # pass
     
 
     # ===== RENDERING GOES HERE =====
@@ -89,7 +105,7 @@ while True:
 
     rocketVerts = RocketGameObj.getVertices()
     rocketrect = pygame.draw.polygon(screen, RocketGameObj.color, rocketVerts)
-    groundrect = pygame.draw.polygon(screen, GroundGameObj.color, GroundGameObj.getVertices())
+    groundrect = pygame.draw.polygon(screen, GroundGameObj.color, groundVerts)
 
     landingZone = pygame.draw.line(screen, (255, 238, 0), GroundGameObj.landingZone[0], GroundGameObj.landingZone[1])
 
