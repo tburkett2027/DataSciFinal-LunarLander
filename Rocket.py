@@ -64,22 +64,49 @@ class Rocket:
     #30 22 3pts
     #22 13 4 pts
     #less then 13 5 pts
-    def scoreSelf(self, gameTime: float) -> float:
-        print("\n\t:=====: SCORING LOGIC :=====:")
+    def scoreSelf(self, gameTime: float) -> int:
+        print("\n:=====: SCORING LOGIC :=====:")
         print(f"Time elapsed: {gameTime}s")
         print(f"Rocket angle (degrees): {self.angle}")
         magVelo: float = (self.velocity[0]**2 + self.velocity[1]**2)**0.5
-        unitVelo: tuple[float,float] = self.velocity/magVelo
         print(f"Rocket velocity magnitude: {magVelo}")
-        print(f"Rocket velocity unit: {unitVelo}")
+        unitVelo: tuple[float,float] = self.velocity/magVelo
+        print(f"Rocket velocity unit: {unitVelo}\n")
 
-        score: float = 0.0
+        angleScore: int = 0
+        timeScore: int = 0
+        velocityScore: int = 0
         convertedAngle: float = abs((self.angle+180) % 360 - 180)
 
-        if convertedAngle <= 2: score += 5
-        elif convertedAngle <= 5: score += 4
-        elif convertedAngle <= 7: score += 3
-        elif convertedAngle <= 8: score += 2
-        elif convertedAngle <= 10: score += 1
+        if convertedAngle > 10:
+            print("Rocket angle from vertical too big\n")
+            return -1
+        elif magVelo > 42:
+            print("Rocket speed too high")
+            return -1
 
-        print("")
+        if convertedAngle <= 2: angleScore += 5
+        elif convertedAngle <= 5: angleScore += 4
+        elif convertedAngle <= 7: angleScore += 3
+        elif convertedAngle <= 8: angleScore += 2
+        elif convertedAngle <= 10: angleScore += 1
+        print(f"\nAngle score: {angleScore}")
+
+        if gameTime <= 13: timeScore += 5
+        elif gameTime <= 22: timeScore += 4
+        elif gameTime <= 30: timeScore += 3
+        elif gameTime <= 45: timeScore += 2
+        else: timeScore += 1
+        print(f"Time score: {timeScore}")
+
+        # good speed score <= 12
+        # speed breakpoints: 18-5, 24-4, 30-3, 36-2, 42-1
+        if magVelo <= 18: velocityScore += 5
+        elif magVelo <= 24: velocityScore += 4
+        elif magVelo <= 30: velocityScore += 3
+        elif magVelo <= 36: velocityScore += 2
+        elif magVelo <= 42: velocityScore += 1
+        print(f"Velocity score: {velocityScore}\n")
+
+
+        return velocityScore + angleScore + timeScore

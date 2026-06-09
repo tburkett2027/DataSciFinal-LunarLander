@@ -59,6 +59,10 @@ class Ground:
 
         return point[1] >= y(point[0])
 
+    
+    def isPointLanding(self, point: tuple[int, int]) -> bool:
+        return self.landingZone[0][0] <= point[0] and point[0] <= self.landingZone[1][0]
+
 
 # for drawing stars later
 class Space:

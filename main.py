@@ -95,8 +95,9 @@ while True:
         #less then 13 5 pts
 
         if collided:
-            RocketGameObj.scoreSelf(time.perf_counter()-start_time)
-            # pass
+            gameScore: int = RocketGameObj.scoreSelf(time.perf_counter()-start_time)
+            landing: bool = GroundGameObj.isPointLanding(RocketGameObj.position)
+            print(f"Score: {gameScore}\nLanding: {landing}")
     
 
     # ===== RENDERING GOES HERE =====
