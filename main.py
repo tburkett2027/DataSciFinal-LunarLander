@@ -4,11 +4,13 @@ import Constants
 
 from Rocket import Rocket
 from Ground import Ground
+from TextBox import TextBox
 
 pygame.init()
 
 # Window size
 screen = pygame.display.set_mode(Constants.SCREEN_SIZE)
+pygame.display.set_caption("Lunar Lander")
 
 clock = pygame.time.Clock()
 
@@ -24,7 +26,9 @@ RocketGameObj: Rocket = Rocket()
 GroundGameObj: Ground = Ground()
 
 gameActive: bool = True
-gameScore: float = 0.0 # THIS IS UPDATED AT THE VERY END
+
+gameScore: int = 0 # THIS IS UPDATED AT THE VERY END
+scoreDisplay: TextBox = TextBox()
 
 while True:
     # get delta time in seconds
@@ -95,9 +99,14 @@ while True:
         #less then 13 5 pts
 
         if collided:
-            gameScore: int = RocketGameObj.scoreSelf(time.perf_counter()-start_time)
+            gameScore = RocketGameObj.scoreSelf(time.perf_counter()-start_time)
             landing: bool = GroundGameObj.isPointLanding(RocketGameObj.position)
             print(f"Score: {gameScore}\nLanding: {landing}")
+
+            if gameScore == -1:
+                scoreDisplay.setText("You crashed LMAO")
+            else:
+                scoreDisplay.setText(f"You landed! :D     Score: {gameScore}")
     
 
     # ===== RENDERING GOES HERE =====
@@ -109,6 +118,9 @@ while True:
     groundrect = pygame.draw.polygon(screen, GroundGameObj.color, groundVerts)
 
     landingZone = pygame.draw.line(screen, (255, 238, 0), GroundGameObj.landingZone[0], GroundGameObj.landingZone[1])
+
+    if not gameActive:
+        scoreDisplay.draw(screen)
 
     # swaps the screen frame with the buffer frame, reversing their roles.
     # basically the buffer frame is what we're changing while the screen frame
