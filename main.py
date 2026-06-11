@@ -1,9 +1,9 @@
 import pygame
 import time
-import Constants
 
+import Constants
 from Rocket import Rocket
-from Ground import Ground
+from Ground import Ground, Space
 from TextBox import TextBox
 
 pygame.init()
@@ -24,6 +24,7 @@ gamePrint("<!> Starting game <!>")
 
 RocketGameObj: Rocket = Rocket()
 GroundGameObj: Ground = Ground()
+SpaceBackground: Space = Space()
 
 gameActive: bool = True
 
@@ -58,6 +59,8 @@ while True:
     if key[pygame.K_d]:
         RocketGameObj.tilt(1)
     if key[pygame.K_w]:
+        if gameActive:
+            RocketGameObj.color = (255, 255, 0)
         RocketGameObj.thrust()
 
 
@@ -82,21 +85,6 @@ while True:
                 collided = True
                 gameActive = False
                 break
-        
-
-        # Scoring 5 points come from angle, the other 5 come from time, adding up to 10
-
-        #if rocket angle is greater than 10 -10 Explode
-            #between 2 -2 is a 5
-            # 5 -5 is a 4
-            # 7 -7 is a 3
-            # 8 -8 is a 2
-            # 10 -10 is a 1
-        #if time is greater then 45 secconds 1 point
-        #45 30 2pts
-        #30 22 3pts
-        #22 13 4 pts
-        #less then 13 5 pts
 
         if collided:
             gameScore = RocketGameObj.scoreSelf(time.perf_counter()-start_time)
@@ -105,17 +93,25 @@ while True:
 
             if gameScore == -1:
                 scoreDisplay.setText("You crashed LMAO")
+                RocketGameObj.color = (218, 73, 51)
             else:
                 scoreDisplay.setText(f"You landed! :D     Score: {gameScore}")
-    
+                RocketGameObj.color = (0, 128, 0)
+
+
 
     # ===== RENDERING GOES HERE =====
     # fills buffer frame with black
     screen.fill("black")
 
+    spaceVerts = SpaceBackground.getVertices()
+    for vert in spaceVerts:
+        pygame.draw.circle(screen, (255, 255, 255), vert, 2)
     rocketVerts = RocketGameObj.getVertices()
     rocketrect = pygame.draw.polygon(screen, RocketGameObj.color, rocketVerts)
     groundrect = pygame.draw.polygon(screen, GroundGameObj.color, groundVerts)
+    if gameActive:
+        RocketGameObj.color = (255, 255, 255)
 
     landingZone = pygame.draw.line(screen, (255, 238, 0), GroundGameObj.landingZone[0], GroundGameObj.landingZone[1])
 

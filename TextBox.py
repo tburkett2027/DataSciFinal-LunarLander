@@ -3,6 +3,7 @@ import numpy as np
 import sys
 from Constants import SCREEN_SIZE, FONT
 
+# I made this class for easy text managing lol
 class TextBox:
     def __init__(self, text:str="Placeholder", position:tuple[int,int]=np.array(SCREEN_SIZE)/2):
         self.text = text

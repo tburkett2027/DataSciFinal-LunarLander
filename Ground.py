@@ -71,7 +71,8 @@ class Space:
         self.dims: tuple[int, int] = Constants.SCREEN_SIZE
         self.vertices: list[tuple[int, int]] = [
             (randint(0,self.dims[0]), randint(0,self.dims[1]))
+            for i in range(self.numStars)
         ]
     
-    def getVertices() -> list[tuple[int, int]]:
+    def getVertices(self) -> list[tuple[int, int]]:
         return self.vertices

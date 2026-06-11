@@ -8,7 +8,7 @@ class Rocket:
         self.velocity: np.ndarray = np.array([000.0, 0.0])
         self.angular_velocity: float = 0.0
         self.angle: float = 0.0
-        self.color: tuple[int, int, int] = (218, 73, 51)
+        self.color: tuple[int, int, int] = (255, 255, 255)
         self.vertices: list[tuple[float, float]] = [
             (0, -120), # tip
             (40, -40), # topleft
@@ -20,7 +20,7 @@ class Rocket:
 
     # rotate, accelerate due to gravity, move
     def update(self, delta: float) -> None:
-        self.angular_velocity -= self.angular_velocity / 250 # rotation decay
+        self.angular_velocity -= self.angular_velocity / 175 # rotation decay
         self.angle = (self.angle + (self.angular_velocity * delta)) % 360
         self.velocity += np.array([0.0, Constants.GRAVITY])
         self.position += self.velocity * delta
